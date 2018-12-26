@@ -41,9 +41,31 @@ app.get('/todos/:id', (req, res) => {
         if (!todo) {
             return res.status(404).send({message: 'Todo object not found'});
         }
-        res.send(todo);
+        res.send({todo});
     }).catch((err) => {
         res.status(500).send({message: 'Internal Error'});
+    });
+});
+
+app.delete('/todos/:id',(req,res)=>{
+    let id = req.params.id;
+    if(!ObjectID.isValid(id)){
+        return res.status(400).send({
+            message:'Invalid ID'
+        });
+    }
+    
+    Todo.findByIdAndRemove(id).then((todo)=>{
+        if(!todo){
+            return res.status(404).send({
+                message:'Todo Not Found'
+            });
+        }
+        return res.send({todo});
+    }).catch((e)=>{
+        return res.status(500).send({
+            message:'An error occurred while trying to delete a Todo'
+        });
     });
 });
 
