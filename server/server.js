@@ -8,6 +8,7 @@ const _ = require('lodash');
 const { mongoose } = require('./db/mongoose');
 const { Todo } = require('./models/todo');
 const { User } = require('./models/user');
+const {auth} = require('./middlewares/auth');
 
 const port = process.env.PORT;
 
@@ -112,6 +113,10 @@ app.post('/users', (req, res) => {
     }).catch((e) => {
         res.status(400).send(e);
     });
+});
+
+app.get('/users/me', auth, (req, res) => {
+    res.send(res.user);
 });
 
 app.listen(port, () => {
