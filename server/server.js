@@ -115,6 +115,16 @@ app.post('/users', (req, res) => {
     });
 });
 
+app.post('/users/login', (req, res) => {
+    let body = _.pick(req.body, ['email', 'password']);
+
+    User.findByCredentials(body.email, body.password)
+        .then(token => res.header('x-auth', token).send({token}))
+        .catch((e) => {
+            res.status(401).send({message: 'Invalid email/password'});
+        });
+});
+
 app.get('/users/me', auth, (req, res) => {
     res.send(res.user);
 });
