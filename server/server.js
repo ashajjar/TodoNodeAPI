@@ -125,6 +125,14 @@ app.post('/users/login', (req, res) => {
         });
 });
 
+app.delete('/users/me/token', auth, (req, res) => {
+    res.user.removeToken(res.token).then(() => {
+        res.send();
+    }).catch(() => {
+        res.status(401).send();
+    });
+});
+
 app.get('/users/me', auth, (req, res) => {
     res.send(res.user);
 });
