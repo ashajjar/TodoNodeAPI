@@ -64,7 +64,6 @@ UserSchema.statics.findOneByToken = function (token) {
 
 UserSchema.pre('save', function (next) {
   if (this.isModified('password')) {
-    console.log('pass changed');
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(this.password, salt);
     this.password = hash;
