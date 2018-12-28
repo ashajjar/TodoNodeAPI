@@ -1,0 +1,190 @@
+{
+	"info": {
+		"_postman_id": "277dca64-d34a-4c53-a57b-b51c873244bb",
+		"name": "Todo App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add a todo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"text\":\"Complete NodeJS Course\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/todos",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all todos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/todos",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a todo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/todos/5c1f51126be602d21adf66a1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"todos",
+						"5c1f51126be602d21adf66a1"
+					]
+				},
+				"description": "Get One"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a todo",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/todos/5c1f51126be602d21adf66a1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"todos",
+						"5c1f51126be602d21adf66a1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a todo",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"text\":\"Do something\",\n\t\"completed\":true\n}"
+				},
+				"url": {
+					"raw": "{{url}}/todos/5c1f51126be602d21adf66a1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"todos",
+						"5c1f51126be602d21adf66a1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"\",\n\t\"password\":\"\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/users/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"ahmad@hajjar.com\",\n\t\"password\":\"123456\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/users/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
