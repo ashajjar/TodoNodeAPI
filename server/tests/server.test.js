@@ -310,3 +310,30 @@ describe('POST /users/login', () => {
             .end(done);
     });
 });
+describe('DELETE /users/me/token', function () {
+
+    it('should delete auth token if logged in', function (done) {
+        request(app)
+            .delete('/users/me/token')
+            .set('x-auth', users[0].tokens[0].token)
+            .expect(200)
+            .end((err) => {
+                if (err) {
+                    return done(err);
+                }
+                User.findById(users[0]._id)
+                    .then((user) => {
+                        expect(user.tokens.length).toBe(0);
+                        done();
+                    })
+                    .catch(done);
+            });
+    });
+
+    it('should return unauthorised when not logged in', function (done) {
+        request(app)
+            .delete('/users/me/token')
+            .expect(401)
+            .end(done);
+    });
+});
