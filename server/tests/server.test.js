@@ -266,6 +266,47 @@ describe('POST /users', () => {
     });
 });
 
-after(()=>{
-    mongoose.connection.close();
+describe('POST /users/login', () => {
+    it('should log user in and return auth token', function (done) {
+        request(app)
+            .post('/users/login')
+            .send({
+                email: users[0].email,
+                password: users[0].password
+            }).expect(200)
+            .expect((response) => {
+                expect(response.body.token).toExist();
+                expect(response.headers['x-auth']).toExist();
+                expect(response.headers['x-auth']).toBe(response.body.token);
+            })
+            .end(done);
+    });
+
+    it('should reject login for correct email and invalid password', function (done) {
+        request(app)
+            .post('/users/login')
+            .send({
+                email: users[0].email,
+                password: 'random stuff'
+            }).expect(401)
+            .expect((response) => {
+                expect(response.headers['x-auth']).toNotExist();
+                expect(response.body.message).toBe('Invalid email/password');
+            })
+            .end(done);
+    });
+
+    it('should reject login for invalid credentials', function (done) {
+        request(app)
+            .post('/users/login')
+            .send({
+                email: 'random@email.com',
+                password: 'random stuff'
+            }).expect(401)
+            .expect((response) => {
+                expect(response.headers['x-auth']).toNotExist();
+                expect(response.body.message).toBe('Invalid email/password');
+            })
+            .end(done);
+    });
 });
