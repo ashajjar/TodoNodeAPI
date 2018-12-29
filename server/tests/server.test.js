@@ -93,7 +93,7 @@ describe('GET /todos/:id', function () {
             .set('x-auth', users[0].tokens[0].token)
             .expect(404)
             .expect((res) => {
-                expect(res.body).toInclude({
+                expect(res.body).toMatchObject({
                     message: 'Todo object not found'
                 });
             }).end(done);
@@ -105,7 +105,7 @@ describe('GET /todos/:id', function () {
             .set('x-auth', users[0].tokens[0].token)
             .expect(400)
             .expect((res) => {
-                expect(res.body).toInclude({
+                expect(res.body).toMatchObject({
                     message: 'Invalid ID'
                 });
             }).end(done);
@@ -119,7 +119,7 @@ describe('DELETE /todos/:id', () => {
             .set('x-auth', users[1].tokens[0].token)
             .expect(200)
             .expect((res) => {
-                expect(res.body.todo).toInclude({ text: todos[2].text });
+                expect(res.body.todo).toMatchObject({ text: todos[2].text });
             }).end((err, res) => {
                 if (err) {
                     return done(err);
@@ -130,7 +130,7 @@ describe('DELETE /todos/:id', () => {
                     .set('x-auth', users[1].tokens[0].token)
                     .expect(404)
                     .expect((res) => {
-                        expect(res.body).toInclude({ message: 'Todo Not Found' });
+                        expect(res.body).toMatchObject({ message: 'Todo Not Found' });
                     })
                     .end(done);
             });
@@ -163,7 +163,7 @@ describe('DELETE /todos/:id', () => {
             .set('x-auth', users[1].tokens[0].token)
             .expect(400)
             .expect((res) => {
-                expect(res.body).toInclude({ message: 'Invalid ID' });
+                expect(res.body).toMatchObject({ message: 'Invalid ID' });
             })
             .end(done);
     });
@@ -176,7 +176,7 @@ describe('PATCH /todos/:id', () => {
             .set('x-auth', users[1].tokens[0].token)
             .expect(404)
             .expect((res) => {
-                expect(res.body).toInclude({
+                expect(res.body).toMatchObject({
                     message: 'Todo Not Found'
                 });
             }).end(done);
@@ -198,7 +198,7 @@ describe('PATCH /todos/:id', () => {
             .set('x-auth', users[1].tokens[0].token)
             .expect(400)
             .expect((res) => {
-                expect(res.body).toInclude({ message: 'Invalid ID' });
+                expect(res.body).toMatchObject({ message: 'Invalid ID' });
             })
             .end(done);
     });
@@ -224,7 +224,7 @@ describe('PATCH /todos/:id', () => {
             .expect((res) => {
                 expect(res.body.todo.text).toBe(todos[3].text);
                 expect(res.body.todo.completed).toBe(false);
-                expect(res.body.todo.completedAt).toNotExist();
+                expect(res.body.todo.completedAt).toBeFalsy();
             }).end(done);
     });
 
@@ -238,7 +238,7 @@ describe('PATCH /todos/:id', () => {
             .expect((res) => {
                 expect(res.body.todo.text).toBe(todos[1].text);
                 expect(res.body.todo.completed).toBe(true);
-                expect(res.body.todo.completedAt).toBeA('number');
+                expect(typeof res.body.todo.completedAt).toBe('number');
             }).end(done);
     });
 });
@@ -262,7 +262,7 @@ describe('GET /users/me', () => {
             .get('/users/me')
             .expect(401)
             .expect((res) => {
-                expect(res.body).toEqual({ message: 'unauthorised' });
+                expect(res.body).toMatchObject({ message: 'unauthorised' });
             })
             .end(done);
     });
@@ -278,8 +278,8 @@ describe('POST /users', () => {
             .send({ email, password })
             .expect(200)
             .expect((res) => {
-                expect(res.headers['x-auth']).toExist();
-                expect(res.body._id).toExist();
+                expect(res.headers['x-auth']).toBeTruthy();
+                expect(res.body._id).toBeTruthy();
                 expect(res.body.email).toBe(email);
             })
             .end((err) => {
@@ -288,8 +288,8 @@ describe('POST /users', () => {
                 }
 
                 User.findOne({ email }).then((user) => {
-                    expect(user).toExist();
-                    expect(user.password).toNotBe(password);
+                    expect(user).toBeTruthy();
+                    expect(user.password).not.toBe(password);
                     done();
                 });
             });
@@ -327,8 +327,8 @@ describe('POST /users/login', () => {
                 password: users[0].password
             }).expect(200)
             .expect((response) => {
-                expect(response.body.token).toExist();
-                expect(response.headers['x-auth']).toExist();
+                expect(response.body.token).toBeTruthy();
+                expect(response.headers['x-auth']).toBeTruthy();
                 expect(response.headers['x-auth']).toBe(response.body.token);
             })
             .end(done);
@@ -342,7 +342,7 @@ describe('POST /users/login', () => {
                 password: 'random stuff'
             }).expect(401)
             .expect((response) => {
-                expect(response.headers['x-auth']).toNotExist();
+                expect(response.headers['x-auth']).toBeFalsy();
                 expect(response.body.message).toBe('Invalid email/password');
             })
             .end(done);
@@ -356,7 +356,7 @@ describe('POST /users/login', () => {
                 password: 'random stuff'
             }).expect(401)
             .expect((response) => {
-                expect(response.headers['x-auth']).toNotExist();
+                expect(response.headers['x-auth']).toBeFalsy();
                 expect(response.body.message).toBe('Invalid email/password');
             })
             .end(done);
