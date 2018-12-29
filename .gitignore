@@ -84,3 +84,6 @@ typings/
 
 # Playground
 playground/
+
+# Exclude config file
+server/config/config.json
